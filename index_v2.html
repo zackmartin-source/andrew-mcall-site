@@ -188,6 +188,23 @@ nav.topnav.scrolled{background:rgba(255,255,255,0.55);backdrop-filter:blur(18px)
 .reader-page-flipping .reader-page-sheen{animation:reader-sheen 1.4s ease-in-out forwards}
 @keyframes reader-sheen{0%{opacity:0}45%{opacity:1}100%{opacity:0}}
 
+/* === Foliate-style page-curl drag flip === */
+.reader-page-next{position:absolute;inset:0;z-index:1;pointer-events:none;visibility:hidden}
+.reader-page-next.show{visibility:visible}
+.reader-page-curl{position:absolute;inset:0;z-index:32;will-change:transform,box-shadow;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-origin:left center;border-radius:6px;pointer-events:none}
+.reader-page-curl.dragging{transition:none}
+.reader-page-curl.settling{transition:transform 350ms cubic-bezier(0.34,1.56,0.64,1),box-shadow 350ms ease}
+.reader-page-curl.completing{transition:transform 600ms cubic-bezier(0.22,1,0.36,1),box-shadow 600ms ease}
+.reader-page-curl.from-left{transform-origin:right center}
+.reader-page-curl-shade{position:absolute;inset:0;pointer-events:none;border-radius:6px;background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(0,0,0,0.22) 100%);opacity:0;mix-blend-mode:multiply}
+.reader-page-curl.from-left .reader-page-curl-shade{background:linear-gradient(to left,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(0,0,0,0.22) 100%)}
+.reader-page-curl-edge{position:absolute;top:0;bottom:0;right:0;width:14px;pointer-events:none;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.45) 55%,rgba(255,255,255,0) 100%);opacity:0;border-radius:0 6px 6px 0;filter:blur(0.4px)}
+.reader-page-curl.from-left .reader-page-curl-edge{right:auto;left:0;background:linear-gradient(to left,rgba(255,255,255,0) 0%,rgba(255,255,255,0.45) 55%,rgba(255,255,255,0) 100%);border-radius:6px 0 0 6px}
+.reader-page-curl-back{position:absolute;inset:0;border-radius:6px;background:linear-gradient(225deg,#f6efe0 0%,#ece2cc 55%,#dccfb2 100%);box-shadow:inset 0 0 60px rgba(139,115,85,0.10);transform:rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:0}
+.reader-page-curl.past-half .reader-page-curl-back{opacity:1}
+.reader-page-curl.past-half .reader-page-current-face{opacity:0}
+.reader-page-current-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px;overflow:hidden}
+
 /* Persistent order strip in reader chrome */
 .reader-order-strip{position:relative;display:flex;gap:0.6rem;align-items:center;justify-content:center;margin-top:1rem;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.18);border-radius:9999px;z-index:10005;transition:opacity 0.4s ease,transform 0.4s ease}
 .reader-order-strip.hide{opacity:0;pointer-events:none}
@@ -1599,6 +1616,14 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     <div class="reader-page-wrap" id="reader-page-wrap">
       <div class="reader-edge-tap left" id="reader-tap-left"></div>
       <div class="reader-edge-tap right" id="reader-tap-right"></div>
+      <div class="reader-page reader-page-next" id="reader-page-next">
+        <span class="rp-grain"></span>
+        <span class="rp-corner tl"></span><span class="rp-corner tr"></span>
+        <span class="rp-corner bl"></span><span class="rp-corner br"></span>
+        <div class="rp-header"></div>
+        <div class="rp-body"></div>
+        <div class="rp-num"></div>
+      </div>
       <div class="reader-page" id="reader-page-current">
         <span class="rp-grain"></span>
         <span class="rp-corner tl"></span><span class="rp-corner tr"></span>
@@ -1782,6 +1807,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 
   var modal = document.getElementById('book-reader');
   var current = document.getElementById('reader-page-current');
+  var nextEl = document.getElementById('reader-page-next');
   var endScreen = document.getElementById('reader-end');
   var indicator = document.getElementById('reader-indicator');
   var progressBar = document.getElementById('reader-progress-bar');
@@ -1808,24 +1834,20 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
       : '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
   }
   updateSoundIcon();
+  var _flipAudio = null;
+  try{
+    _flipAudio = new Audio('page-flip.mp3');
+    _flipAudio.preload = 'auto';
+    _flipAudio.volume = 0.6;
+  }catch(e){}
   function playFlipSound(){
     if(!_soundOn) return;
     try{
-      if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      var ctx = _audioCtx;
-      var buffer = ctx.createBuffer(1, ctx.sampleRate*0.3, ctx.sampleRate);
-      var data = buffer.getChannelData(0);
-      for(var i=0;i<data.length;i++){
-        var env = Math.max(0, 1 - i/data.length);
-        data[i] = (Math.random()*2-1) * env * 0.15;
-      }
-      var noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      var filter = ctx.createBiquadFilter();
-      filter.type = 'highpass'; filter.frequency.value = 2000;
-      var gain = ctx.createGain(); gain.gain.value = 0.3;
-      noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-      noise.start();
+      if(!_flipAudio) return;
+      var clone = _flipAudio.cloneNode();
+      clone.volume = 0.6;
+      var p = clone.play();
+      if(p && p.catch) p.catch(function(){});
     }catch(e){}
   }
   if(soundBtn){
@@ -2019,37 +2041,252 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     document.body.classList.remove('reader-locked');
   };
 
-  btnPrev.addEventListener('click', function(){ go(-1); });
-  btnNext.addEventListener('click', function(){ go(1); });
+  function nav(direction){
+    if(flipping || showingEnd){ go(direction); return; }
+    var t = idx + direction;
+    if(t < 0) return;
+    if(t >= PAGES.length){ go(direction); return; }
+    animateFlip(direction);
+  }
+  btnPrev.addEventListener('click', function(){ nav(-1); });
+  btnNext.addEventListener('click', function(){ nav(1); });
   btnClose.addEventListener('click', closeReader);
-  tapL.addEventListener('click', function(){ go(-1); });
-  tapR.addEventListener('click', function(){ go(1); });
+  // Edge tap regions: only fire if we did NOT just start a curl drag
+  tapL.addEventListener('click', function(e){ if(curl || flipping) return; nav(-1); });
+  tapR.addEventListener('click', function(e){ if(curl || flipping) return; nav(1); });
 
   // Keyboard
   document.addEventListener('keydown', function(e){
     if (!modal.classList.contains('open')) return;
     if (e.key === 'Escape') closeReader();
-    else if (e.key === 'ArrowLeft') go(-1);
-    else if (e.key === 'ArrowRight') go(1);
+    else if (e.key === 'ArrowLeft') nav(-1);
+    else if (e.key === 'ArrowRight') nav(1);
   });
 
-  // Swipe (mobile)
-  var startX = 0, startY = 0, startT = 0;
-  wrap.addEventListener('touchstart', function(e){
-    if (!e.touches[0]) return;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    startT = Date.now();
-  }, {passive:true});
-  wrap.addEventListener('touchend', function(e){
-    if (!e.changedTouches[0]) return;
-    var dx = e.changedTouches[0].clientX - startX;
-    var dy = e.changedTouches[0].clientY - startY;
-    var dt = Date.now() - startT;
-    if (dt < 600 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
-      if (dx < 0) go(1); else go(-1);
+  // ---- Foliate-style page-curl drag flip ----
+  // Edge zone width (px from right or left edge of page) where drag initiates a flip
+  var EDGE_ZONE = 70;
+  var curl = null;          // active curl element while dragging
+  var curlState = null;     // {direction, startX, startY, startT, pageW, pageH, targetIdx, raf, lastProgress, moved}
+
+  function showNextPagePeek(direction){
+    var nextIdx = idx + direction;
+    if (nextIdx < 0 || nextIdx >= PAGES.length) return false;
+    renderPage(nextIdx, nextEl);
+    nextEl.classList.add('show');
+    return true;
+  }
+
+  function hideNextPagePeek(){
+    if(nextEl) nextEl.classList.remove('show');
+  }
+
+  function buildCurl(direction){
+    // Clone current page visual as the curling overlay (front face).
+    var face = current.cloneNode(true);
+    face.removeAttribute('id');
+    face.classList.remove('reader-page');
+    face.classList.add('reader-page','reader-page-current-face');
+    var c = document.createElement('div');
+    c.className = 'reader-page-curl dragging' + (direction === -1 ? ' from-left' : '');
+    c.appendChild(face);
+    var back = document.createElement('div');
+    back.className = 'reader-page-curl-back';
+    c.appendChild(back);
+    var shade = document.createElement('div');
+    shade.className = 'reader-page-curl-shade';
+    c.appendChild(shade);
+    var edge = document.createElement('div');
+    edge.className = 'reader-page-curl-edge';
+    c.appendChild(edge);
+    wrap.appendChild(c);
+    return c;
+  }
+
+  function applyCurlTransform(progress, direction){
+    if(!curl) return;
+    var p = Math.max(0, Math.min(1, progress));
+    var angle = direction === 1 ? -p * 180 : p * 180;
+    // Subtle scale and skew for paper feel
+    var scale = 1 - p * 0.02;
+    var skew = direction === 1 ? p * 2 : -p * 2;
+    curl.style.transform = 'perspective(1500px) rotateY(' + angle + 'deg) skewY(' + skew + 'deg) scale(' + scale + ')';
+    var shadowX = direction === 1 ? -p * 40 : p * 40;
+    curl.style.boxShadow = shadowX + 'px ' + (p * 20) + 'px ' + (p * 60 + 10) + 'px rgba(0,0,0,' + (0.35 * p) + ')';
+    var shade = curl.querySelector('.reader-page-curl-shade');
+    if(shade) shade.style.opacity = String(0.85 * p);
+    var edge = curl.querySelector('.reader-page-curl-edge');
+    if(edge) edge.style.opacity = String(Math.min(1, p * 1.4) * (p < 0.5 ? 1 : (1 - (p - 0.5) * 2)));
+    if(p > 0.5) curl.classList.add('past-half');
+    else curl.classList.remove('past-half');
+    curlState.lastProgress = p;
+  }
+
+  function endCurl(complete){
+    if(!curl || !curlState) return;
+    var direction = curlState.direction;
+    var targetIdx = curlState.targetIdx;
+    curl.classList.remove('dragging');
+    if(complete){
+      curl.classList.add('completing');
+      var finalAngle = direction === 1 ? -180 : 180;
+      curl.style.transform = 'perspective(1500px) rotateY(' + finalAngle + 'deg) skewY(0deg) scale(1)';
+      curl.style.boxShadow = '0 30px 80px rgba(0,0,0,0.55)';
+      var shade = curl.querySelector('.reader-page-curl-shade');
+      if(shade) shade.style.opacity = '0';
+      curl.classList.add('past-half');
+      playFlipSound();
+      try{ if(navigator.vibrate) navigator.vibrate(10); }catch(e){}
+      setTimeout(function(){
+        idx = targetIdx;
+        warmCache(idx);
+        renderPage(idx, current);
+        updateIndicator();
+        hideNextPagePeek();
+        if(curl && curl.parentNode) curl.parentNode.removeChild(curl);
+        curl = null;
+        curlState = null;
+        flipping = false;
+      }, 600);
+    } else {
+      curl.classList.add('settling');
+      curl.style.transform = 'perspective(1500px) rotateY(0deg) skewY(0deg) scale(1)';
+      curl.style.boxShadow = '0 30px 80px rgba(0,0,0,0.55)';
+      var shade2 = curl.querySelector('.reader-page-curl-shade');
+      if(shade2) shade2.style.opacity = '0';
+      curl.classList.remove('past-half');
+      setTimeout(function(){
+        hideNextPagePeek();
+        if(curl && curl.parentNode) curl.parentNode.removeChild(curl);
+        curl = null;
+        curlState = null;
+        flipping = false;
+      }, 360);
     }
-  }, {passive:true});
+  }
+
+  // Programmatic full flip (for arrows / keyboard / edge taps)
+  function animateFlip(direction){
+    if(flipping) return;
+    var targetIdx = idx + direction;
+    if(targetIdx < 0) return;
+    if(targetIdx >= PAGES.length){ go(direction); return; }
+    flipping = true;
+    showNextPagePeek(direction);
+    curl = buildCurl(direction);
+    curlState = {direction:direction, targetIdx:targetIdx, lastProgress:0};
+    // Force layout, then animate to completion
+    void curl.offsetWidth;
+    applyCurlTransform(0.001, direction);
+    requestAnimationFrame(function(){
+      endCurl(true);
+    });
+  }
+
+  function pointerDown(clientX, clientY, e){
+    if(flipping || showingEnd) return;
+    var rect = wrap.getBoundingClientRect();
+    var localX = clientX - rect.left;
+    var localY = clientY - rect.top;
+    if(localY < 0 || localY > rect.height) return;
+    var direction = 0;
+    if(localX > rect.width - EDGE_ZONE && idx + 1 <= PAGES.length){
+      direction = 1; // forward
+    } else if(localX < EDGE_ZONE && idx - 1 >= 0){
+      direction = -1; // back
+    } else {
+      return; // outside edge zone
+    }
+    // Block when forward would push us past end (we want end-screen via go() instead)
+    if(direction === 1 && idx + 1 >= PAGES.length){
+      // Let click/tap handlers deal with end screen; do not start a curl
+      return;
+    }
+    flipping = true;
+    if(!showNextPagePeek(direction)){
+      flipping = false;
+      return;
+    }
+    curl = buildCurl(direction);
+    curlState = {
+      direction: direction,
+      startX: clientX,
+      startY: clientY,
+      startT: Date.now(),
+      pageW: rect.width,
+      pageH: rect.height,
+      targetIdx: idx + direction,
+      lastProgress: 0,
+      moved: false,
+      raf: 0
+    };
+    applyCurlTransform(0, direction);
+    if(e && e.cancelable) e.preventDefault();
+  }
+
+  function pointerMove(clientX, clientY, e){
+    if(!curl || !curlState) return;
+    var dx = clientX - curlState.startX;
+    var rawProgress;
+    if(curlState.direction === 1) rawProgress = -dx / curlState.pageW;
+    else rawProgress = dx / curlState.pageW;
+    if(Math.abs(dx) > 4) curlState.moved = true;
+    if(curlState.raf) return;
+    curlState.raf = requestAnimationFrame(function(){
+      curlState.raf = 0;
+      applyCurlTransform(rawProgress, curlState.direction);
+    });
+    if(e && e.cancelable) e.preventDefault();
+  }
+
+  function pointerUp(clientX, clientY){
+    if(!curl || !curlState) return;
+    var dt = Date.now() - curlState.startT;
+    var dx = clientX - curlState.startX;
+    var progress = curlState.lastProgress;
+    // Fast flick counts as a complete flip
+    var fast = dt < 220 && Math.abs(dx) > 30 && ((curlState.direction === 1 && dx < 0) || (curlState.direction === -1 && dx > 0));
+    var complete = progress > 0.5 || fast;
+    if(!curlState.moved && !fast){
+      // Treat as a click on the edge zone; do a full programmatic flip
+      complete = true;
+    }
+    endCurl(complete);
+  }
+
+  // Touch
+  wrap.addEventListener('touchstart', function(e){
+    if(!e.touches[0]) return;
+    pointerDown(e.touches[0].clientX, e.touches[0].clientY, e);
+  }, {passive:false});
+  wrap.addEventListener('touchmove', function(e){
+    if(!e.touches[0]) return;
+    pointerMove(e.touches[0].clientX, e.touches[0].clientY, e);
+  }, {passive:false});
+  wrap.addEventListener('touchend', function(e){
+    if(!e.changedTouches[0]) return;
+    pointerUp(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  });
+  wrap.addEventListener('touchcancel', function(){
+    if(curl && curlState) endCurl(false);
+  });
+
+  // Mouse (desktop drag)
+  var _mouseDown = false;
+  wrap.addEventListener('mousedown', function(e){
+    if(e.button !== 0) return;
+    pointerDown(e.clientX, e.clientY, e);
+    if(curl){ _mouseDown = true; }
+  });
+  document.addEventListener('mousemove', function(e){
+    if(!_mouseDown) return;
+    pointerMove(e.clientX, e.clientY, e);
+  });
+  document.addEventListener('mouseup', function(e){
+    if(!_mouseDown) return;
+    _mouseDown = false;
+    pointerUp(e.clientX, e.clientY);
+  });
 
   // Prevent body taps closing on backdrop accidentally; close only via X
 
