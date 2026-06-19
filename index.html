@@ -77,14 +77,14 @@ nav.topnav.scrolled{background:rgba(255,255,255,0.55);backdrop-filter:blur(18px)
 @media(hover:none){.cursor-glow{display:none!important}}
 
 /* === MOBILE TOUCH EFFECTS === */
-.touch-ripple{position:fixed;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,0.5) 0%,rgba(14,165,233,0.25) 50%,rgba(37,99,235,0) 80%);transform:translate(-50%,-50%) scale(0);opacity:0.5;z-index:9999;width:0;height:0;will-change:transform,opacity}
-.touch-ripple.go{animation:touch-ripple-anim 800ms cubic-bezier(0.22,1,0.36,1) forwards}
-@keyframes touch-ripple-anim{0%{transform:translate(-50%,-50%) scale(0);opacity:0.5;width:20px;height:20px}100%{transform:translate(-50%,-50%) scale(10);opacity:0;width:20px;height:20px}}
+.touch-ripple{position:fixed;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(180,200,230,0.95) 0%,rgba(120,160,210,0.5) 45%,rgba(60,100,180,0) 80%);transform:translate(-50%,-50%) scale(0);opacity:0.85;z-index:9999;width:0;height:0;will-change:transform,opacity;mix-blend-mode:difference}
+.touch-ripple.go{animation:touch-ripple-anim 900ms cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes touch-ripple-anim{0%{transform:translate(-50%,-50%) scale(0);opacity:0.9;width:30px;height:30px}100%{transform:translate(-50%,-50%) scale(15);opacity:0;width:30px;height:30px}}
 
-.touch-trail-dot{position:fixed;pointer-events:none;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,rgba(125,211,252,0.9) 0%,rgba(37,99,235,0.4) 50%,transparent 80%);transform:translate(-50%,-50%);z-index:9998;mix-blend-mode:screen;will-change:transform,opacity;animation:trail-fade 600ms ease-out forwards}
-@keyframes trail-fade{0%{opacity:0.9;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.2)}}
+.touch-trail-dot{position:fixed;pointer-events:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(220,230,255,1) 0%,rgba(140,180,230,0.65) 45%,transparent 80%);transform:translate(-50%,-50%);z-index:9998;mix-blend-mode:difference;will-change:transform,opacity;animation:trail-fade 700ms ease-out forwards;box-shadow:0 0 12px rgba(180,200,255,0.6)}
+@keyframes trail-fade{0%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.2)}}
 
-.touch-orb{position:fixed;pointer-events:none;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(125,211,252,0.35) 0%,rgba(37,99,235,0.15) 40%,transparent 75%);transform:translate(-50%,-50%);z-index:9997;opacity:0;transition:opacity 0.5s;filter:blur(2px);will-change:transform,opacity}
+.touch-orb{position:fixed;pointer-events:none;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(200,220,255,0.7) 0%,rgba(120,160,220,0.3) 45%,transparent 78%);transform:translate(-50%,-50%);z-index:9997;opacity:0;transition:opacity 0.5s;filter:blur(2px);will-change:transform,opacity;mix-blend-mode:difference}
 .touch-orb.active{opacity:1}
 
 .confetti-piece{position:fixed;pointer-events:none;width:8px;height:8px;border-radius:2px;z-index:9999;will-change:transform,opacity}
@@ -133,6 +133,106 @@ nav.topnav.scrolled{background:rgba(255,255,255,0.55);backdrop-filter:blur(18px)
 .btn-glass{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.75);color:#16243a;font-weight:600;padding:1rem 2rem;border-radius:9999px;transition:all 0.3s}
 .btn-glass:hover{background:rgba(255,255,255,0.8);transform:translateY(-2px)}
 .btn-glass:active{transform:translateY(0) scale(0.98)}
+
+/* === PREMIUM BUTTON (universal upgrade for all CTAs) === */
+.btn-premium{position:relative;overflow:hidden;isolation:isolate}
+.btn-premium::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.25),rgba(255,255,255,0) 40%,rgba(255,255,255,0.15));pointer-events:none;z-index:1}
+.btn-premium::after{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent);transform:skewX(-22deg);animation:premium-sheen 4.2s ease-in-out infinite;pointer-events:none;z-index:2}
+@keyframes premium-sheen{0%{left:-60%}55%{left:160%}100%{left:160%}}
+.btn-premium > *{position:relative;z-index:3}
+.btn-premium:hover{box-shadow:0 14px 38px rgba(29,78,216,0.45),0 4px 12px rgba(14,165,233,0.25);transform:translateY(-2px)}
+.btn-premium:active{transform:translateY(0) scale(0.97)}
+.btn-premium-light{position:relative;overflow:hidden}
+.btn-premium-light::after{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);transform:skewX(-22deg);animation:premium-sheen 4.6s ease-in-out infinite;pointer-events:none}
+.btn-premium-light:hover{box-shadow:0 12px 32px rgba(255,255,255,0.25)}
+
+/* === READER MODAL === */
+.reader-modal{position:fixed;inset:0;z-index:10000;background:radial-gradient(ellipse at center,#1a2b4a 0%,#0a1628 60%,#050b18 100%);opacity:0;visibility:hidden;transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),visibility 0.6s;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;overflow:hidden}
+.reader-modal.open{opacity:1;visibility:visible}
+.reader-modal-stars{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 20% 30%,rgba(255,255,255,0.6),transparent),radial-gradient(1px 1px at 70% 40%,rgba(186,230,253,0.5),transparent),radial-gradient(1.5px 1.5px at 40% 70%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 85% 80%,rgba(186,230,253,0.5),transparent),radial-gradient(1px 1px at 15% 85%,rgba(255,255,255,0.4),transparent),radial-gradient(2px 2px at 90% 15%,rgba(255,255,255,0.3),transparent);opacity:0.7;animation:reader-stars-twinkle 8s ease-in-out infinite}
+@keyframes reader-stars-twinkle{0%,100%{opacity:0.5}50%{opacity:0.9}}
+.reader-close{position:absolute;top:1.25rem;right:1.25rem;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.25);color:#f5f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10010;transition:all 0.3s;font-family:inherit;padding:0}
+.reader-close:hover{background:rgba(255,255,255,0.22);transform:scale(1.08) rotate(90deg);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+.reader-close svg{width:22px;height:22px}
+.reader-stage{position:relative;width:100%;max-width:720px;flex:1;display:flex;align-items:center;justify-content:center;perspective:2200px;perspective-origin:center center}
+.reader-page-wrap{position:relative;width:100%;max-width:640px;aspect-ratio:1/1.35;transform-style:preserve-3d}
+.reader-page{position:absolute;inset:0;background:linear-gradient(135deg,#f8f3e8 0%,#f0e8d6 100%);border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,0.55),0 0 0 1px rgba(139,115,85,0.15),inset 0 0 60px rgba(139,115,85,0.06);padding:clamp(2rem,5vw,3.5rem) clamp(1.6rem,5vw,3.5rem);display:flex;flex-direction:column;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-origin:left center;will-change:transform;overflow:hidden}
+.reader-page::before{content:'';position:absolute;left:0;top:0;bottom:0;width:24px;background:linear-gradient(to right,rgba(139,115,85,0.18),transparent);pointer-events:none}
+.reader-page::after{content:'';position:absolute;inset:18px;border:1px solid rgba(139,115,85,0.08);pointer-events:none;border-radius:3px}
+.reader-page .rp-corner{position:absolute;width:28px;height:28px;opacity:0.35;pointer-events:none}
+.reader-page .rp-corner.tl{top:14px;left:14px;border-top:1.5px solid #8b7355;border-left:1.5px solid #8b7355}
+.reader-page .rp-corner.tr{top:14px;right:14px;border-top:1.5px solid #8b7355;border-right:1.5px solid #8b7355}
+.reader-page .rp-corner.bl{bottom:14px;left:14px;border-bottom:1.5px solid #8b7355;border-left:1.5px solid #8b7355}
+.reader-page .rp-corner.br{bottom:14px;right:14px;border-bottom:1.5px solid #8b7355;border-right:1.5px solid #8b7355}
+.reader-page .rp-header{font-family:'Manrope',sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8b7355;text-align:center;margin-bottom:1.5rem;opacity:0.6;flex-shrink:0}
+.reader-page .rp-body{flex:1;font-family:'Lora',Georgia,serif;color:#2a2418;font-size:clamp(0.95rem,1.6vw,1.05rem);line-height:1.85;text-align:justify;overflow:hidden}
+.reader-page .rp-body p{margin-bottom:1rem}
+.reader-page .rp-num{font-family:'Lora',Georgia,serif;font-size:0.85rem;color:#8b7355;text-align:center;margin-top:1rem;opacity:0.7;flex-shrink:0}
+.reader-page .rp-section-label{font-family:'Manrope',sans-serif;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#a8835a;text-align:center;margin-bottom:1.25rem;font-weight:600}
+.reader-page.is-epigraph .rp-body,.reader-page.is-scripture .rp-body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-style:italic;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.9;color:#3a2f1f;max-width:90%;margin:0 auto}
+.reader-page.is-epigraph .rp-body cite,.reader-page.is-scripture .rp-body cite{display:block;font-style:normal;font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:#8b7355;margin-top:1.5rem;opacity:0.85}
+.reader-page.is-title{align-items:center;justify-content:center;text-align:center}
+.reader-page.is-title .rp-body{display:flex;flex-direction:column;justify-content:center;align-items:center}
+.reader-page.is-title h2{font-family:'Lora',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);color:#1a1208;line-height:1.2;margin-bottom:1.2rem}
+.reader-page.is-title h2 em{color:#8b7355;font-style:italic}
+.reader-page.is-title .ornament{width:60px;height:1px;background:linear-gradient(to right,transparent,#8b7355,transparent);margin:1rem auto;opacity:0.6}
+.reader-page-flipping{animation:reader-flip 1s cubic-bezier(0.55,0,0.45,1) forwards;z-index:30}
+.reader-page-flipping.reverse{animation:reader-flip-reverse 1s cubic-bezier(0.55,0,0.45,1) forwards}
+@keyframes reader-flip{0%{transform:rotateY(0);box-shadow:0 30px 80px rgba(0,0,0,0.55)}50%{box-shadow:-20px 30px 60px rgba(0,0,0,0.6)}100%{transform:rotateY(-180deg);box-shadow:0 30px 80px rgba(0,0,0,0.55)}}
+@keyframes reader-flip-reverse{0%{transform:rotateY(-180deg);box-shadow:0 30px 80px rgba(0,0,0,0.55)}50%{box-shadow:20px 30px 60px rgba(0,0,0,0.6)}100%{transform:rotateY(0);box-shadow:0 30px 80px rgba(0,0,0,0.55)}}
+.reader-page-sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,0.4) 50%,transparent 60%);opacity:0;border-radius:6px}
+.reader-page-flipping .reader-page-sheen{animation:reader-sheen 1s ease-in-out forwards}
+@keyframes reader-sheen{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.reader-edge-tap{position:absolute;top:0;bottom:0;width:18%;z-index:8;cursor:pointer}
+.reader-edge-tap.left{left:0}
+.reader-edge-tap.right{right:0}
+.reader-nav{display:flex;align-items:center;gap:1.5rem;margin-top:1.5rem;z-index:10005}
+.reader-nav button{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:#f5f0e8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-family:inherit;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.reader-nav button:hover:not(:disabled){background:rgba(255,255,255,0.2);transform:scale(1.08)}
+.reader-nav button:disabled{opacity:0.3;cursor:not-allowed}
+.reader-nav .indicator{font-family:'Lora',Georgia,serif;font-style:italic;color:rgba(245,240,232,0.8);font-size:0.95rem;min-width:120px;text-align:center}
+.reader-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(245,240,232,0.1);z-index:10004}
+.reader-progress-bar{height:100%;background:linear-gradient(to right,#d4b97a,#f0d896,#d4b97a);transition:width 0.5s cubic-bezier(0.22,1,0.36,1);box-shadow:0 0 12px rgba(212,185,122,0.6)}
+.reader-dust{position:absolute;width:4px;height:4px;border-radius:50%;background:radial-gradient(circle,#f0d896,transparent);pointer-events:none;z-index:25}
+
+/* End-of-chapter CTA */
+.reader-end{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;color:#f5f0e8;background:radial-gradient(ellipse at center,rgba(26,43,74,0.6) 0%,transparent 70%)}
+.reader-end.show{display:flex;animation:reader-end-in 1s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes reader-end-in{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.reader-end .ornament{width:80px;height:1px;background:linear-gradient(to right,transparent,#d4b97a,transparent);margin-bottom:1.5rem}
+.reader-end h3{font-family:'Lora',Georgia,serif;font-size:clamp(2rem,5vw,2.8rem);margin-bottom:0.85rem;color:#f5f0e8}
+.reader-end h3 em{color:#f0d896;font-style:italic}
+.reader-end p.sub{font-family:'Lora',Georgia,serif;color:rgba(245,240,232,0.75);font-size:1.05rem;max-width:32rem;margin-bottom:2.25rem;line-height:1.75}
+.reader-end-btns{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:1.75rem}
+.reader-end-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:0.5rem;padding:1rem 2rem;border-radius:9999px;font-family:'Manrope',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;border:none;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);min-height:48px}
+.reader-end-btn.primary{background:linear-gradient(135deg,#f0d896 0%,#d4b97a 50%,#b89860 100%);color:#1a1208;box-shadow:0 12px 32px rgba(212,185,122,0.4),inset 0 1px 0 rgba(255,255,255,0.5)}
+.reader-end-btn.primary:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(212,185,122,0.6),inset 0 1px 0 rgba(255,255,255,0.5)}
+.reader-end-btn.secondary{background:rgba(255,255,255,0.1);color:#f5f0e8;border:1px solid rgba(245,240,232,0.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.reader-end-btn.secondary:hover{transform:translateY(-3px);background:rgba(255,255,255,0.18);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
+.reader-end-btn::after{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);transform:skewX(-22deg);animation:premium-sheen 3.6s ease-in-out infinite;pointer-events:none}
+.reader-end-back{background:none;border:none;color:rgba(245,240,232,0.6);font-family:'Lora',Georgia,serif;font-style:italic;font-size:0.9rem;cursor:pointer;transition:color 0.3s;padding:0.5rem 1rem}
+.reader-end-back:hover{color:#f0d896}
+
+/* Tap-to-read hint near 3D book */
+.book-read-hint{margin:1.5rem auto 0;display:flex;flex-direction:column;align-items:center;gap:0.5rem;pointer-events:auto;position:relative;z-index:5}
+.book-read-hint button{position:relative;overflow:hidden;background:linear-gradient(135deg,#f0d896,#d4b97a);color:#1a1208;font-family:'Manrope',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.8rem 1.75rem;border-radius:9999px;border:none;cursor:pointer;box-shadow:0 10px 28px rgba(212,185,122,0.5),inset 0 1px 0 rgba(255,255,255,0.5);transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;font-family:inherit}
+.book-read-hint button::after{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent);transform:skewX(-22deg);animation:premium-sheen 3.4s ease-in-out infinite;pointer-events:none}
+.book-read-hint button:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(212,185,122,0.65),inset 0 1px 0 rgba(255,255,255,0.5)}
+.book-read-hint .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f0d896;box-shadow:0 0 0 0 rgba(240,216,150,0.7);animation:read-hint-pulse 1.8s infinite}
+@keyframes read-hint-pulse{0%{box-shadow:0 0 0 0 rgba(240,216,150,0.7)}70%{box-shadow:0 0 0 12px rgba(240,216,150,0)}100%{box-shadow:0 0 0 0 rgba(240,216,150,0)}}
+body.reader-locked{overflow:hidden}
+
+@media(max-width:640px){
+  .reader-modal{padding:1rem 0.75rem}
+  .reader-page{padding:1.5rem 1.25rem}
+  .reader-page .rp-body{font-size:0.92rem;line-height:1.75}
+  .reader-page-wrap{max-width:100%;aspect-ratio:1/1.4}
+  .reader-nav{gap:0.85rem;margin-top:1rem}
+  .reader-nav .indicator{font-size:0.85rem;min-width:90px}
+  .reader-close{width:46px;height:46px;top:0.85rem;right:0.85rem}
+  .reader-end h3{font-size:1.7rem}
+  .reader-end p.sub{font-size:0.95rem}
+}
 
 /* HOME HERO - Asymmetric split */
 .hero{position:relative;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;background:linear-gradient(to bottom,#eaf3fb,#f3f8fd,#fff)}
@@ -651,7 +751,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
         <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook" style="color:#5a6b84;transition:color 0.4s"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4H7.1v-3.5h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9v2.2h3.3l-.5 3.5h-2.8v8.4C19.6 23.1 24 18.2 24 12.1Z"/></svg></a>
         <a href="https://x.com" target="_blank" rel="noopener" aria-label="X" style="color:#5a6b84;transition:color 0.4s"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2.3h3.5l-7.6 8.7L23 21.7h-7l-5.5-7.2-6.3 7.2H.7l8.1-9.3L.4 2.3h7.2l5 6.6 5.6-6.6Zm-1.2 17.4h1.9L6.5 4.3H4.4l12.6 15.4Z"/></svg></a>
       </div>
-      <button class="nav-btn" onclick="go('books')">Order the Book</button>
+      <button class="nav-btn btn-premium" onclick="go('books')">Order the Book</button>
     </div>
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
@@ -660,7 +760,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     <button class="mn-link" data-page="books" onclick="go('books');closeMobile()">The Books</button>
     <button class="mn-link" data-page="about" onclick="go('about');closeMobile()">About Andrew</button>
     <button class="mn-link" data-page="contact" onclick="go('contact');closeMobile()">Contact</button>
-    <button class="mn-order-btn" onclick="go('books');closeMobile()">
+    <button class="mn-order-btn btn-premium" onclick="go('books');closeMobile()">
       Order the Book
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
@@ -1031,7 +1131,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     </div>
 
     <!-- The 3D Book -->
-    <div class="book-3d closed" id="book-3d">
+    <div class="book-3d closed" id="book-3d" style="cursor:pointer">
       <div class="book-ribbon"></div>
       <div class="book-lightsweep"></div>
       <!-- Pages stack (visible behind) -->
@@ -1176,6 +1276,18 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
   </div>
 </section>
 
+<!-- Tap to Read CTA after the 3D book -->
+<section style="padding:0 0 3rem;background:#fff;text-align:center">
+  <div class="book-read-hint reveal">
+    <button onclick="openReader()" aria-label="Read Chapter 1">
+      <span class="pulse-dot"></span>
+      Tap to Read Chapter 1
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+    <p style="font-family:'Lora',Georgia,serif;font-style:italic;color:#5a6b84;font-size:0.85rem;margin-top:0.5rem">A free preview of the opening chapter</p>
+  </div>
+</section>
+
 <!-- ORDER SECTION (after the book experience) -->
 <section style="padding:5rem 0;background:#fff">
   <div style="max-width:56rem;margin:0 auto;padding:0 2rem;text-align:center" class="reveal">
@@ -1183,8 +1295,8 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     <h2 class="section-h2 font-display" style="margin-bottom:1.5rem">Get your copy <em>today</em></h2>
     <p style="color:#5a6b84;max-width:32rem;margin:0 auto 2.5rem;line-height:1.8">Twelve chapters that follow a single thread through the whole of Scripture. Available in hardcover, eBook and bulk orders for churches and study groups.</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem">
-      <button class="btn-primary btn-magnetic shimmer">Order Hardcover</button>
-      <button class="btn-glass">Read a Free Sample</button>
+      <button class="btn-primary btn-magnetic shimmer btn-premium">Order Hardcover</button>
+      <button class="btn-glass btn-premium-light" onclick="openReader()">Read a Free Sample</button>
     </div>
   </div>
 </section>
@@ -1200,7 +1312,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
       <p class="book2-p">What happens to a world that keeps choosing its own source? Book Two picks up at Peter's confession and accelerates into the present day, where the oldest temptation now moves at the speed of light. Be the first to know when it arrives.</p>
       <div class="waitlist-row">
         <input type="email" placeholder="Your email address"/>
-        <button>Notify Me</button>
+        <button class="btn-premium">Notify Me</button>
       </div>
     </div>
   </div>
@@ -1219,7 +1331,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
       <h1 class="font-display">The man behind <em>the question</em></h1>
       <p>Andrew McCall is a theologian, teacher and former business owner who has spent his life at the intersection of deep study and everyday faith. He is not interested in giving you his opinions. He is interested in what the text has been saying all along.</p>
       <p>When he is not writing, Andrew teaches, mentors and speaks on revelation knowledge: the simple, life-changing idea that God still wants to be the Source of everything His children know.</p>
-      <button class="btn-primary" onclick="go('contact')" style="margin-top:0.75rem">Invite Andrew to Speak</button>
+      <button class="btn-primary btn-premium" onclick="go('contact')" style="margin-top:0.75rem">Invite Andrew to Speak</button>
     </div>
     <div class="about-photo reveal-right">
       <div class="photo-glow"></div>
@@ -1348,7 +1460,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
           <label>Message</label>
           <textarea rows="5" placeholder="Write your message here..." required></textarea>
         </div>
-        <button type="submit" class="submit-btn">Send Message</button>
+        <button type="submit" class="submit-btn btn-premium">Send Message</button>
         <div class="success-msg" id="contact-success">
           Thank you, your message has been sent. Andrew will be in touch within two business days.
         </div>
@@ -1382,7 +1494,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
         <p style="font-size:0.875rem;color:rgba(186,230,253,0.6);margin-bottom:1rem;line-height:1.75">New chapters, events and reflections. No noise, ever.</p>
         <div class="email-row">
           <input type="email" placeholder="Your email"/>
-          <button>Join</button>
+          <button class="btn-premium">Join</button>
         </div>
       </div>
     </div>
@@ -1398,6 +1510,251 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     </div>
   </div>
 </footer>
+
+<!-- ==================== READER MODAL ==================== -->
+<div class="reader-modal" id="book-reader" role="dialog" aria-modal="true" aria-label="Chapter 1 Reader">
+  <div class="reader-modal-stars"></div>
+  <button class="reader-close" id="reader-close" aria-label="Close reader">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="reader-stage">
+    <div class="reader-page-wrap" id="reader-page-wrap">
+      <div class="reader-edge-tap left" id="reader-tap-left"></div>
+      <div class="reader-edge-tap right" id="reader-tap-right"></div>
+      <div class="reader-page" id="reader-page-current">
+        <span class="rp-corner tl"></span><span class="rp-corner tr"></span>
+        <span class="rp-corner bl"></span><span class="rp-corner br"></span>
+        <div class="rp-header"></div>
+        <div class="rp-body"></div>
+        <div class="rp-num"></div>
+        <div class="reader-page-sheen"></div>
+      </div>
+      <div class="reader-end" id="reader-end">
+        <div class="ornament"></div>
+        <h3>Enjoyed the <em>opening</em>?</h3>
+        <p class="sub">Continue the journey with the full book. Eleven more chapters trace this single thread through the whole of Scripture.</p>
+        <div class="reader-end-btns">
+          <button class="reader-end-btn primary" onclick="closeReader();go('books')">Order a Hard Copy</button>
+          <button class="reader-end-btn secondary" onclick="closeReader();go('books')">Order the Full eBook</button>
+        </div>
+        <button class="reader-end-back" onclick="closeReader()">&larr; Return to website</button>
+      </div>
+    </div>
+  </div>
+  <div class="reader-nav">
+    <button id="reader-prev" aria-label="Previous page">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="indicator" id="reader-indicator">Page 1 of 11</span>
+    <button id="reader-next" aria-label="Next page">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="width:0%"></div></div>
+</div>
+
+<script>
+// ========== CHAPTER 1 READER ==========
+(function(){
+  var PAGES = [
+    {type:'title', title:'Chapter One', em:'The Question That Changes Everything', label:'The Knowledge of Good and Evil'},
+    {type:'epigraph', body:'"Most are subjective toward themselves and objective toward all others, frightfully sometimes. But the task is precisely to be objective toward oneself and subjective toward all others."', cite:'Soren Kierkegaard'},
+    {type:'body', body:'<p>There is a question buried in the opening chapters of Genesis that most readers walk past without stopping. It does not announce itself. It does not interrupt the narrative with a footnote or demand that the reader pause. It sits in plain sight, wrapped inside a simple command, in a garden that no longer exists in any geography we can visit. And yet it may be the most consequential question ever put before the human race.</p><p>The question is this: why was the tree of the knowledge of good and evil forbidden?</p>'},
+    {type:'body', body:'<p>Not the serpent. Not the act of disobedience itself. Not even the fruit, which most artistic traditions have imagined as an apple with no scriptural basis whatsoever. The question behind all of those details is the one this book is written to pursue. Because the answer to that question does not merely explain a moment in Eden. It explains the entire shape of human history. It reframes the covenants. It reframes the prophets. It reframes the Incarnation. And it reframes the life of every person who has ever tried to navigate the world while carrying questions that only the Source of all knowledge can answer.</p>'},
+    {type:'body', sectionLabel:'Kierkegaard at the Gate of Eden', body:'<p>This is not a book about the Fall in the way most books about the Fall are written. It is not primarily a book about sin and its consequences, though sin and consequences will appear in every chapter. It is a book about a boundary. About a relationship. About the difference between two kinds of knowledge. And about a God who placed one tree in the middle of a garden because He wanted His children to get everything they needed from Him.</p>'},
+    {type:'body', body:'<p>Soren Kierkegaard was not thinking about the garden of Eden when he wrote the words that open this chapter. He was writing about the fundamental problem of human self-knowledge. He was a Danish philosopher and theologian working in the first half of the nineteenth century, and he was trying to describe the peculiar blindness that afflicts almost every human being who has ever lived: the tendency to extend enormous generosity to oneself while remaining harshly critical of everyone else.</p>'},
+    {type:'body', body:'<p>Most people, Kierkegaard observed, are subjective toward themselves. They interpret their own motives charitably. They find ways to explain their failures that shift the weight of responsibility somewhere else. They give themselves the benefit of every doubt that they would never extend to another person. And they are correspondingly objective toward others, meaning they evaluate other people with a critical distance and analytical precision that they never turn on themselves.</p>'},
+    {type:'body', body:'<p>The task, Kierkegaard said, is to reverse this. To be objective toward oneself. To be willing to look honestly, without the protection of self-flattery, at who you actually are, where you are actually getting your knowledge, and what you are actually doing with it. And to be subjective toward others, meaning open, receptive, and willing to see what God might be revealing through the people, events, and circumstances that surround you.</p>'},
+    {type:'body', body:'<p>This reversal is not a psychological exercise. It is a theological one. And it lands with remarkable precision on the oldest story in Scripture, because the tree of the knowledge of good and evil was forbidden for exactly the reason Kierkegaard was trying to describe. Humanity was not meant to be the subject of its own knowing. God was meant to be the Source. The tree represented the moment when humanity chose to become the center of its own epistemological universe.</p>'},
+    {type:'scripture', body:'"And out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in the midst of the garden, and the tree of knowledge of good and evil."', cite:'Genesis 2:9 (KJV)'},
+    {type:'body', body:'<p>Read that verse carefully, and notice what it does not say. It does not say the tree of the knowledge of good and evil was dangerous in appearance. It was pleasant to the sight and good for food. The tree was appealing by every measure that the human senses could apply to it.</p><p>This is important. The tree was not forbidden because it was obviously bad. It was forbidden because the knowledge it offered was not the knowledge God wanted His children to have, obtained in the way He wanted them to obtain it.</p>'},
+    {type:'body', body:'<p>The problem was never the tree itself. The problem was the source the tree represented: self-generated, independently acquired, boundary-crossing knowledge rather than revealed, relationally given, Source-initiated knowledge.</p><p style="text-align:center;margin-top:2rem;font-style:italic;color:#8b7355;letter-spacing:0.2em;font-size:0.8rem;text-transform:uppercase">End of Chapter One</p>'}
+  ];
+
+  var modal = document.getElementById('book-reader');
+  var current = document.getElementById('reader-page-current');
+  var endScreen = document.getElementById('reader-end');
+  var indicator = document.getElementById('reader-indicator');
+  var progressBar = document.getElementById('reader-progress-bar');
+  var btnPrev = document.getElementById('reader-prev');
+  var btnNext = document.getElementById('reader-next');
+  var btnClose = document.getElementById('reader-close');
+  var tapL = document.getElementById('reader-tap-left');
+  var tapR = document.getElementById('reader-tap-right');
+  var wrap = document.getElementById('reader-page-wrap');
+  var idx = 0;
+  var flipping = false;
+  var showingEnd = false;
+
+  function renderPage(p, el){
+    el.classList.remove('is-title','is-epigraph','is-scripture');
+    var header = el.querySelector('.rp-header');
+    var body = el.querySelector('.rp-body');
+    var num = el.querySelector('.rp-num');
+    header.textContent = 'The Knowledge of Good and Evil';
+    if (p.type === 'title'){
+      el.classList.add('is-title');
+      body.innerHTML = '<div class="rp-section-label">'+ p.label +'</div><h2>'+ p.title +'<br><em>'+ p.em +'</em></h2><div class="ornament"></div>';
+    } else if (p.type === 'epigraph'){
+      el.classList.add('is-epigraph');
+      body.innerHTML = p.body + '<cite>'+ p.cite +'</cite>';
+    } else if (p.type === 'scripture'){
+      el.classList.add('is-scripture');
+      body.innerHTML = p.body + '<cite>'+ p.cite +'</cite>';
+    } else {
+      var html = '';
+      if (p.sectionLabel) html += '<div class="rp-section-label">'+ p.sectionLabel +'</div>';
+      html += p.body;
+      body.innerHTML = html;
+    }
+    num.textContent = 'Page ' + (PAGES.indexOf(p)+1);
+  }
+
+  function updateIndicator(){
+    indicator.textContent = 'Page ' + (idx+1) + ' of ' + PAGES.length;
+    progressBar.style.width = ((idx+1) / PAGES.length * 100) + '%';
+    btnPrev.disabled = idx === 0;
+    btnNext.disabled = false;
+  }
+
+  function spawnDust(){
+    var rect = wrap.getBoundingClientRect();
+    for (var i=0;i<10;i++){
+      var d = document.createElement('div');
+      d.className = 'reader-dust';
+      var sx = rect.left + rect.width*0.5 + (Math.random()-0.5)*40;
+      var sy = rect.top + rect.height*0.5;
+      d.style.left = sx+'px';
+      d.style.top = sy+'px';
+      d.style.position='fixed';
+      d.style.zIndex='10020';
+      document.body.appendChild(d);
+      var dx = (Math.random()-0.5)*200;
+      var dy = -60 - Math.random()*120;
+      d.animate([
+        {transform:'translate(0,0) scale(1)',opacity:1},
+        {transform:'translate('+dx+'px,'+dy+'px) scale(0.2)',opacity:0}
+      ], {duration:900+Math.random()*400, easing:'cubic-bezier(0.22,1,0.36,1)'});
+      setTimeout((function(el){return function(){if(el.parentNode)el.parentNode.removeChild(el);};})(d), 1400);
+    }
+  }
+
+  function go(direction){
+    if (flipping) return;
+    if (showingEnd){
+      if (direction === -1){
+        showingEnd = false;
+        endScreen.classList.remove('show');
+        current.style.display = '';
+        return;
+      }
+      return;
+    }
+    var nextIdx = idx + direction;
+    if (nextIdx < 0) return;
+    if (nextIdx >= PAGES.length){
+      // show end screen
+      showingEnd = true;
+      current.style.display = 'none';
+      endScreen.classList.add('show');
+      try{ if(navigator.vibrate) navigator.vibrate(15); }catch(e){}
+      return;
+    }
+    flipping = true;
+    try{ if(navigator.vibrate) navigator.vibrate(10); }catch(e){}
+    spawnDust();
+    // Build a flipping clone of current
+    var clone = current.cloneNode(true);
+    clone.classList.add('reader-page-flipping');
+    if (direction === -1) clone.classList.add('reverse');
+    wrap.appendChild(clone);
+    // Update content of underlying page immediately to next page
+    idx = nextIdx;
+    renderPage(PAGES[idx], current);
+    updateIndicator();
+    setTimeout(function(){
+      if (clone.parentNode) clone.parentNode.removeChild(clone);
+      flipping = false;
+    }, 1000);
+  }
+
+  window.openReader = function(){
+    document.body.classList.add('reader-locked');
+    modal.classList.add('open');
+    idx = 0;
+    showingEnd = false;
+    endScreen.classList.remove('show');
+    current.style.display = '';
+    renderPage(PAGES[0], current);
+    updateIndicator();
+  };
+  window.closeReader = function(){
+    modal.classList.remove('open');
+    document.body.classList.remove('reader-locked');
+  };
+
+  btnPrev.addEventListener('click', function(){ go(-1); });
+  btnNext.addEventListener('click', function(){ go(1); });
+  btnClose.addEventListener('click', closeReader);
+  tapL.addEventListener('click', function(){ go(-1); });
+  tapR.addEventListener('click', function(){ go(1); });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e){
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeReader();
+    else if (e.key === 'ArrowLeft') go(-1);
+    else if (e.key === 'ArrowRight') go(1);
+  });
+
+  // Swipe (mobile)
+  var startX = 0, startY = 0, startT = 0;
+  wrap.addEventListener('touchstart', function(e){
+    if (!e.touches[0]) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startT = Date.now();
+  }, {passive:true});
+  wrap.addEventListener('touchend', function(e){
+    if (!e.changedTouches[0]) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    var dt = Date.now() - startT;
+    if (dt < 600 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+      if (dx < 0) go(1); else go(-1);
+    }
+  }, {passive:true});
+
+  // Prevent body taps closing on backdrop accidentally; close only via X
+
+  // ---- Tap-to-open on the 3D book (distinguishes from scroll/swipe) ----
+  var book3dEl = document.getElementById('book-3d');
+  if (book3dEl){
+    var bsX=0,bsY=0,bsT=0,bsMoved=false;
+    book3dEl.addEventListener('touchstart', function(e){
+      if(!e.touches[0]) return;
+      bsX = e.touches[0].clientX; bsY = e.touches[0].clientY;
+      bsT = Date.now(); bsMoved = false;
+    }, {passive:true});
+    book3dEl.addEventListener('touchmove', function(e){
+      if(!e.touches[0]) return;
+      if (Math.abs(e.touches[0].clientX-bsX) > 12 || Math.abs(e.touches[0].clientY-bsY) > 12) bsMoved = true;
+    }, {passive:true});
+    book3dEl.addEventListener('touchend', function(e){
+      if (!bsMoved && Date.now()-bsT < 500){
+        e.preventDefault();
+        openReader();
+      }
+    });
+    // Desktop click
+    book3dEl.addEventListener('click', function(e){
+      // Only fire if not a synthesized post-touch event (touchend already handled)
+      if (e.detail === 0 && !('ontouchstart' in window)) return;
+      if (!('ontouchstart' in window) || window.innerWidth > 768) openReader();
+    });
+  }
+})();
+</script>
 
 <button id="motion-btn" aria-label="Enable motion effects">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
