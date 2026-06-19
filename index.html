@@ -430,15 +430,15 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 .scroll-zoom{transition:transform 0.3s cubic-bezier(0.22,1,0.36,1)}
 
 /* ========== 3D BOOK FLIP EFFECT ========== */
-.book-experience{position:relative;height:500vh;background:linear-gradient(to bottom,#0e1d33,#132744,#0e1d33)}
+.book-experience{position:relative;height:350vh;background:linear-gradient(to bottom,#0e1d33,#132744,#0e1d33)}
 .book-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;perspective:1800px;overflow:hidden}
 .book-sticky .particles-container{position:absolute;inset:0;z-index:0}
 .book-3d{position:relative;width:380px;height:520px;transform-style:preserve-3d;transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);z-index:2}
 
 /* Book cover */
-.book-cover-3d{position:absolute;inset:0;border-radius:0 8px 8px 0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);backface-visibility:hidden;z-index:10}
+.book-cover-3d{position:absolute;inset:0;border-radius:0 8px 8px 0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);backface-visibility:hidden;-webkit-backface-visibility:hidden;z-index:10}
 .book-cover-3d.flipped{transform:rotateY(-178deg)}
-.cover-front{position:absolute;inset:0;border-radius:0 8px 8px 0;background:linear-gradient(155deg,#134e7c 0%,#0d3a61 60%,#0a2c4d 100%);box-shadow:0 30px 80px rgba(0,0,0,0.5),inset 0 0 60px rgba(0,0,0,0.2);backface-visibility:hidden;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cover-front{position:absolute;inset:0;border-radius:0 8px 8px 0;background:linear-gradient(155deg,#134e7c 0%,#0d3a61 60%,#0a2c4d 100%);box-shadow:0 30px 80px rgba(0,0,0,0.5),inset 0 0 60px rgba(0,0,0,0.2);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .cover-front::before{content:'';position:absolute;left:0;top:0;bottom:0;width:14px;background:linear-gradient(to right,rgba(0,0,0,0.4),rgba(0,0,0,0.1),rgba(255,255,255,0.05))}
 .cover-front::after{content:'';position:absolute;inset:6%;border:1px solid rgba(186,230,253,0.25);border-radius:2px;pointer-events:none}
 .cover-front-content{text-align:center;padding:15%;position:relative;z-index:2}
@@ -447,7 +447,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 .cover-front-content .title{font-family:'Lora',Georgia,serif;color:#eaf5ff;font-size:1.6rem;line-height:1.3;margin-bottom:0.5rem}
 .cover-front-content .title em{font-style:italic;color:#7dd3fc;font-size:1.1rem;display:block;margin:4px 0}
 .cover-front-content .sub{color:rgba(186,230,253,0.5);font-size:9px;letter-spacing:0.4em;text-transform:uppercase;margin-top:1.5rem}
-.cover-back{position:absolute;inset:0;border-radius:8px 0 0 8px;background:linear-gradient(155deg,#0d3a61,#0a2c4d);backface-visibility:hidden;transform:rotateY(180deg)}
+.cover-back{position:absolute;inset:0;border-radius:8px 0 0 8px;background:linear-gradient(155deg,#0d3a61,#0a2c4d);backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg)}
 
 /* Book spine shadow */
 .book-spine-3d{position:absolute;left:0;top:2%;bottom:2%;width:30px;transform:translateX(-15px) rotateY(90deg);background:linear-gradient(to right,#071a2e,#0a2540,#071a2e);transform-origin:right center}
@@ -457,14 +457,14 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 .book-pages-stack::before{content:'';position:absolute;right:0;top:4px;bottom:4px;width:3px;background:repeating-linear-gradient(to bottom,#d4c9b5 0px,#d4c9b5 1px,#e8dcc8 1px,#e8dcc8 3px)}
 
 /* Individual flip pages */
-.flip-page{position:absolute;inset:4px;border-radius:0 6px 6px 0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);backface-visibility:hidden;z-index:5}
-.flip-page.flipped{transform:rotateY(-178deg)}
-.flip-page-front,.flip-page-back{position:absolute;inset:0;border-radius:0 6px 6px 0;backface-visibility:hidden;overflow:hidden}
+.flip-page{position:absolute;inset:4px;border-radius:0 6px 6px 0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);z-index:5}
+.flip-page.flipped{transform:rotateY(-178deg);z-index:1!important}
+.flip-page-front,.flip-page-back{position:absolute;inset:0;border-radius:0 6px 6px 0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
 .flip-page-front{background:linear-gradient(135deg,#f8f3ea,#f5f0e8,#efe8db);box-shadow:inset -3px 0 12px rgba(0,0,0,0.06)}
 .flip-page-back{background:linear-gradient(225deg,#f8f3ea,#f5f0e8,#efe8db);transform:rotateY(180deg);box-shadow:inset 3px 0 12px rgba(0,0,0,0.06)}
 
 /* Page interior design */
-.page-interior{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12% 10%;text-align:center}
+.page-interior{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8% 8%;text-align:center;overflow:hidden}
 .page-interior::before{content:'';position:absolute;inset:5%;border:1px solid rgba(139,115,85,0.15);pointer-events:none}
 .page-interior::after{content:'';position:absolute;inset:7%;border:1px solid rgba(139,115,85,0.08);pointer-events:none}
 .page-corner{position:absolute;width:24px;height:24px;opacity:0.2}
@@ -917,8 +917,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
             <svg class="page-ornament" viewBox="0 0 60 12" fill="none"><path d="M0 6h18M42 6h18" stroke="#8b7355" stroke-width="0.5"/><path d="M24 6a6 6 0 1 1 12 0 6 6 0 0 1-12 0Z" stroke="#8b7355" stroke-width="0.8" fill="none"/><circle cx="30" cy="6" r="2" fill="#8b7355" opacity="0.3"/></svg>
             <h3 class="page-chapter-title font-display">The Anatomy<br><em>of the Fall</em></h3>
             <div class="page-divider"></div>
-            <p class="page-teaser">Stand for a moment at the edge of the garden. The light is warm, gold filtering through leaves that have never known decay. And somewhere among the trees, two human beings are walking, naked and unashamed, in a world engineered for their flourishing by a God who walks with them in the cool of the day.</p>
-            <p class="page-teaser" style="margin-top:0.75rem">Every collapse has an anatomy. The Fall deserves careful, sequential examination. Not because the event is unfamiliar but because its anatomy has been obscured by centuries of reading it primarily as a moral failure when it was, more fundamentally, an epistemological catastrophe.</p>
+            <p class="page-teaser">Every collapse has an anatomy. The Fall has been read for centuries as a moral failure, but it was something deeper: an epistemological catastrophe that reshaped everything.</p>
             <span class="page-number font-display">47</span>
           </div>
         </div>
@@ -941,8 +940,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
             <svg class="page-ornament" viewBox="0 0 60 12" fill="none"><path d="M0 6h18M42 6h18" stroke="#8b7355" stroke-width="0.5"/><path d="M24 6a6 6 0 1 1 12 0 6 6 0 0 1-12 0Z" stroke="#8b7355" stroke-width="0.8" fill="none"/><circle cx="30" cy="6" r="2" fill="#8b7355" opacity="0.3"/></svg>
             <h3 class="page-chapter-title font-display">The Boundary Between<br><em>Creator and Creation</em></h3>
             <div class="page-divider"></div>
-            <p class="page-teaser">There is a moment in the book of Job that most readers find uncomfortable. God has been silent for thirty-seven chapters, and when He finally speaks, He does not answer a single one of Job's questions. He asks His own. Where were you when I laid the foundation of the earth?</p>
-            <p class="page-teaser" style="margin-top:0.75rem">The questions are not cruel. They are clarifying. God is not silencing Job out of irritation. He is repositioning him. He is drawing Job's attention to the most fundamental fact of his existence: there is a boundary between the Creator and the creation.</p>
+            <p class="page-teaser">When God finally speaks to Job, He does not answer a single question. He asks His own. The questions are not cruel. They are clarifying: there is a boundary between the Creator and the creation.</p>
             <span class="page-number font-display">31</span>
           </div>
         </div>
@@ -965,8 +963,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
             <svg class="page-ornament" viewBox="0 0 60 12" fill="none"><path d="M0 6h18M42 6h18" stroke="#8b7355" stroke-width="0.5"/><path d="M24 6a6 6 0 1 1 12 0 6 6 0 0 1-12 0Z" stroke="#8b7355" stroke-width="0.8" fill="none"/><circle cx="30" cy="6" r="2" fill="#8b7355" opacity="0.3"/></svg>
             <h3 class="page-chapter-title font-display">The <em>Forbidden</em><br>Tree</h3>
             <div class="page-divider"></div>
-            <p class="page-teaser">The tree was not forbidden because it was obviously bad. It was forbidden because the knowledge it offered was not the knowledge God wanted His children to have, obtained in the way He wanted them to obtain it. The problem was never the tree itself. The problem was the source the tree represented.</p>
-            <p class="page-teaser" style="margin-top:0.75rem">Self-generated, independently acquired, boundary-crossing knowledge rather than revealed, relationally given, Source-initiated knowledge. The prohibition was not about protecting a secret. It was about protecting a relationship.</p>
+            <p class="page-teaser">The problem was never the tree itself. The problem was the source it represented. The prohibition was not about protecting a secret. It was about protecting a relationship.</p>
             <span class="page-number font-display">15</span>
           </div>
         </div>
@@ -989,8 +986,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
             <svg class="page-ornament" viewBox="0 0 60 12" fill="none"><path d="M0 6h18M42 6h18" stroke="#8b7355" stroke-width="0.5"/><path d="M24 6a6 6 0 1 1 12 0 6 6 0 0 1-12 0Z" stroke="#8b7355" stroke-width="0.8" fill="none"/><circle cx="30" cy="6" r="2" fill="#8b7355" opacity="0.3"/></svg>
             <h3 class="page-chapter-title font-display">The Question That<br><em>Changes Everything</em></h3>
             <div class="page-divider"></div>
-            <p class="page-teaser">There is a question buried in the opening chapters of Genesis that most readers walk past without stopping. It does not announce itself. It sits in plain sight, wrapped inside a simple command, in a garden that no longer exists in any geography we can visit. And yet it may be the most consequential question ever put before the human race.</p>
-            <p class="page-teaser" style="margin-top:0.75rem">The question is this: why was the tree of the knowledge of good and evil forbidden? The answer does not merely explain a moment in Eden. It explains the entire shape of human history.</p>
+            <p class="page-teaser">Why was the tree of the knowledge of good and evil forbidden? The answer does not merely explain a moment in Eden. It explains the entire shape of human history.</p>
             <span class="page-number font-display">1</span>
           </div>
         </div>
@@ -1559,15 +1555,15 @@ if (wordCard) {
     var scrolled = -rect.top;
     var progress = Math.max(0, Math.min(1, scrolled / totalScroll));
 
-    // 7 phases: cover open, page1, page2, page3, page4, back cover reveal, spin
-    var phase = progress * 7;
+    // 6 phases: 0-1 cover opens, 1-2 page1, 2-3 page2, 3-4 page3, 4-5 page4+back, 5-6 spin
+    var phase = progress * 6;
 
     // Scroll hint
     if (progress > 0.02 && hint) hint.classList.add('hidden');
     else if (hint) hint.classList.remove('hidden');
 
     // Progress dots (5 dots for 5 visible states)
-    var dotIndex = Math.min(Math.floor(phase / 1.4), 4);
+    var dotIndex = Math.min(Math.floor(phase / 1.2), 4);
     progressDots.forEach(function(d, i) {
       d.classList.toggle('active', i === dotIndex);
     });
@@ -1575,32 +1571,32 @@ if (wordCard) {
     // Book body orientation
     if (phase < 0.5) {
       book3d.style.transform = 'rotateY(0deg)';
-    } else if (phase < 6) {
+    } else if (phase < 5) {
       book3d.style.transform = 'rotateY(-25deg)';
     } else {
       // Spin phase: smooth rotation
-      var spinProgress = (phase - 6);
+      var spinProgress = (phase - 5);
       var spinAngle = -25 + (spinProgress * -335);
       book3d.style.transform = 'rotateY(' + spinAngle + 'deg) scale(' + (0.85 + spinProgress * 0.15) + ')';
     }
 
-    // Cover opens at phase 0.7
-    if (phase >= 0.7) { cover.classList.add('flipped'); }
+    // Cover opens at phase 0.5
+    if (phase >= 0.5) { cover.classList.add('flipped'); }
     else { cover.classList.remove('flipped'); }
 
-    // Pages flip one by one with clear spacing
-    if (phase >= 1.5) { pages[0].classList.add('flipped'); } else { pages[0].classList.remove('flipped'); }
-    if (phase >= 2.5) { pages[1].classList.add('flipped'); } else { pages[1].classList.remove('flipped'); }
-    if (phase >= 3.5) { pages[2].classList.add('flipped'); } else { pages[2].classList.remove('flipped'); }
-    if (phase >= 4.5) { pages[3].classList.add('flipped'); } else { pages[3].classList.remove('flipped'); }
+    // Pages flip one by one, each gets a full phase
+    if (phase >= 1.3) { pages[0].classList.add('flipped'); } else { pages[0].classList.remove('flipped'); }
+    if (phase >= 2.3) { pages[1].classList.add('flipped'); } else { pages[1].classList.remove('flipped'); }
+    if (phase >= 3.3) { pages[2].classList.add('flipped'); } else { pages[2].classList.remove('flipped'); }
+    if (phase >= 4.3) { pages[3].classList.add('flipped'); } else { pages[3].classList.remove('flipped'); }
 
     // Back cover: visible after all pages flip
     if (backCover) {
-      backCover.style.opacity = phase >= 5 ? '1' : '0.3';
+      backCover.style.opacity = phase >= 4.5 ? '1' : '0.3';
     }
 
     // At end of spin, reset everything for loop
-    if (phase >= 6.9 && lastPhase < 6.9) {
+    if (phase >= 5.9 && lastPhase < 5.9) {
       setTimeout(function() {
         book3d.style.transition = 'none';
         book3d.style.transform = 'rotateY(0deg)';
