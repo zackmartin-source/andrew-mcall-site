@@ -158,8 +158,20 @@ h1.hero-h1{font-family:'Lora',Georgia,serif;font-size:clamp(2.6rem,6vw,4.8rem);l
 .chap-card p:first-child{font-family:'Lora',Georgia,serif;font-size:1.5rem;color:#1d4ed8}
 .chap-card p:last-child{font-size:10px;color:#5a6b84}
 .stars{color:#f59e0b;font-size:0.875rem;letter-spacing:2px}
-@media(max-width:1024px){.hero-inner{grid-template-columns:1fr}.hero-right{display:none}}
+@media(max-width:1024px){
+.hero-inner{grid-template-columns:1fr;text-align:center;justify-items:center}
+.hero-right{display:flex;justify-content:center;margin-top:2rem;opacity:1;animation:none}
+.hero-img{width:260px;height:360px;border-radius:130px 130px 0 0}
+.hero-img-glow{width:14rem;height:5rem}
+.hero-btns{justify-content:center}
+}
 @media(max-width:640px){.hero-inner{padding:7rem 1.25rem 3rem}}
+@media(max-width:768px){
+.hero-right{opacity:1!important;animation:none!important}
+.hero-h1 .inner{animation:none!important;transform:none!important;opacity:1!important}
+.hero-p,.hero-btns{opacity:1!important;animation:none!important}
+.hero-img{animation:none!important}
+}
 
 /* TRUST STRIP - moved BELOW hero per taste-skill */
 .trust-strip{background:#fff;border-top:1px solid rgba(37,99,235,0.06);border-bottom:1px solid rgba(37,99,235,0.06);padding:1.5rem 0}
@@ -548,6 +560,49 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 .cover-front-content .title{font-size:1.2rem}
 .book-progress{right:1rem}
 }
+
+/* Mobile: book section becomes normal height with sticky inner */
+@media(hover:none) and (pointer:coarse){
+.book-experience{height:auto;min-height:100vh}
+.book-sticky{position:relative;height:auto;min-height:100vh;padding:5rem 0}
+.book-scroll-hint{display:none}
+.book-progress{display:none!important}
+}
+
+/* Book visual enhancements */
+.book-halo{position:absolute;top:50%;left:50%;width:560px;height:560px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(125,211,252,0.18) 0%,rgba(212,169,96,0.08) 40%,transparent 70%);filter:blur(20px);z-index:0;animation:halo-pulse 5s ease-in-out infinite;pointer-events:none}
+.book-halo.turning{animation:halo-pulse 1.2s ease-in-out}
+@keyframes halo-pulse{0%,100%{opacity:0.55;transform:translate(-50%,-50%) scale(0.95)}50%{opacity:0.9;transform:translate(-50%,-50%) scale(1.05)}}
+
+.book-3d{filter:drop-shadow(0 30px 40px rgba(0,0,0,0.4))}
+.book-3d.turning{transform:scale(1.02)!important}
+
+/* Light sweep across open book */
+.book-lightsweep{position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.08) 50%,transparent 70%);background-size:300% 100%;animation:lightsweep 7s linear infinite;pointer-events:none;mix-blend-mode:overlay;z-index:9}
+@keyframes lightsweep{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Corner peel hint on top flip page */
+.flip-page-front .corner-peel{position:absolute;bottom:0;right:0;width:38px;height:38px;background:linear-gradient(135deg,transparent 50%,rgba(212,169,96,0.35) 50%,rgba(139,115,85,0.45));border-radius:0 0 6px 0;transform-origin:bottom right;animation:corner-peel 3s ease-in-out infinite;pointer-events:none;box-shadow:-2px -2px 6px rgba(0,0,0,0.1)}
+@keyframes corner-peel{0%,100%{transform:rotate(0deg) translate(0,0)}50%{transform:rotate(-8deg) translate(-2px,-3px)}}
+
+/* Bookmark ribbon */
+.book-ribbon{position:absolute;top:-12px;right:32px;width:18px;height:90px;background:linear-gradient(to bottom,#8b1d2a,#6b1620);z-index:6;box-shadow:2px 0 4px rgba(0,0,0,0.3)}
+.book-ribbon::after{content:'';position:absolute;bottom:-9px;left:0;width:0;height:0;border-left:9px solid #6b1620;border-right:9px solid #6b1620;border-bottom:10px solid transparent}
+
+/* Chapter label below book */
+.book-chapter-label{position:absolute;bottom:3.5rem;left:50%;transform:translateX(-50%);font-family:'Lora',Georgia,serif;color:#d4a960;font-size:0.95rem;letter-spacing:0.25em;text-transform:uppercase;opacity:0.85;transition:opacity 0.5s;z-index:10;text-align:center;white-space:nowrap}
+.book-chapter-label.fade{opacity:0}
+.book-chapter-label small{display:block;font-size:0.7rem;letter-spacing:0.3em;color:rgba(212,169,96,0.6);margin-top:0.4rem}
+
+/* Mobile swipe hint */
+.book-swipe-hint{display:none;position:absolute;top:1.5rem;left:50%;transform:translateX(-50%);color:rgba(212,169,96,0.85);font-family:'Lora',Georgia,serif;font-size:0.85rem;letter-spacing:0.2em;text-transform:uppercase;z-index:15;text-align:center;animation:swipe-pulse 2.2s ease-in-out infinite;pointer-events:none}
+.book-swipe-hint.hidden{opacity:0;transition:opacity 0.5s}
+@keyframes swipe-pulse{0%,100%{opacity:0.5;letter-spacing:0.2em}50%{opacity:1;letter-spacing:0.28em}}
+@media(hover:none) and (pointer:coarse){.book-swipe-hint{display:block}}
+
+/* Burst particle */
+.burst-particle{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#f5e6c4,#d4a960);pointer-events:none;z-index:11;opacity:0;animation:burst 1s ease-out forwards}
+@keyframes burst{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(0.3)}}
 
 /* Reduced motion */
 @media(prefers-reduced-motion:reduce){
@@ -962,6 +1017,9 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     <div class="particles-container" id="book-particles"></div>
     <div class="blob" style="width:500px;height:500px;background:rgba(37,99,235,0.12);top:-100px;left:-100px"></div>
     <div class="blob" style="width:400px;height:400px;background:rgba(125,211,252,0.1);bottom:-80px;right:-60px;animation-delay:-7s"></div>
+    <div class="book-halo" id="book-halo"></div>
+    <div class="book-swipe-hint" id="book-swipe-hint">&larr; Swipe to turn the page &rarr;</div>
+    <div class="book-chapter-label" id="book-chapter-label">The Cover<small>Closed Book</small></div>
 
     <!-- Progress dots -->
     <div class="book-progress active" id="book-progress">
@@ -974,6 +1032,8 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 
     <!-- The 3D Book -->
     <div class="book-3d closed" id="book-3d">
+      <div class="book-ribbon"></div>
+      <div class="book-lightsweep"></div>
       <!-- Pages stack (visible behind) -->
       <div class="book-pages-stack"></div>
 
@@ -1049,6 +1109,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
       <!-- Page 1: Chapter 1 (topmost, flips first) -->
       <div class="flip-page" id="flip-page-1" style="z-index:5">
         <div class="flip-page-front">
+          <div class="corner-peel"></div>
           <div class="page-interior">
             <span class="page-corner tl"></span><span class="page-corner tr"></span>
             <span class="page-corner bl"></span><span class="page-corner br"></span>
@@ -1625,11 +1686,86 @@ if (wordCard) {
   var hint = document.getElementById('book-scroll-hint');
   var progressDots = document.querySelectorAll('.book-progress-dot');
   var lastPhase = -1;
+  var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  var chapterLabel = document.getElementById('book-chapter-label');
+  var swipeHint = document.getElementById('book-swipe-hint');
+  var halo = document.getElementById('book-halo');
+  var bookState = 0; // 0 closed, 1 cover open, 2-5 pages flipped, 6 spinning
+  var chapterTitles = [
+    {t:'The Cover', s:'Closed Book'},
+    {t:'Introduction', s:'Cover Opened'},
+    {t:'Chapter 1 of 4', s:'The Source'},
+    {t:'Chapter 2 of 4', s:'The Forbidden Tree'},
+    {t:'Chapter 3 of 4', s:'The Boundary'},
+    {t:'Chapter 4 of 4', s:'The Anatomy of the Fall'}
+  ];
 
   spawnParticles('book-particles', 15);
 
+  function updateChapterLabel(idx) {
+    if (!chapterLabel) return;
+    var data = chapterTitles[Math.max(0,Math.min(5,idx))];
+    if (!data) return;
+    chapterLabel.classList.add('fade');
+    setTimeout(function(){
+      chapterLabel.innerHTML = data.t + '<small>' + data.s + '</small>';
+      chapterLabel.classList.remove('fade');
+    }, 250);
+  }
+
+  function burstParticles() {
+    if (!book3d) return;
+    var rect = book3d.getBoundingClientRect();
+    var parent = book3d.parentElement;
+    var n = 6 + Math.floor(Math.random()*3);
+    for (var i = 0; i < n; i++) {
+      var p = document.createElement('div');
+      p.className = 'burst-particle';
+      var bx = (Math.random()-0.5)*200;
+      var by = -60 - Math.random()*120;
+      p.style.setProperty('--bx', bx + 'px');
+      p.style.setProperty('--by', by + 'px');
+      p.style.left = (rect.left + rect.width/2 + (Math.random()-0.5)*40) + 'px';
+      p.style.top = (rect.top + rect.height/2) + 'px';
+      p.style.position = 'fixed';
+      document.body.appendChild(p);
+      setTimeout(function(el){return function(){el.remove();};}(p), 1100);
+    }
+  }
+
+  function triggerTurnFx() {
+    if (halo) {
+      halo.classList.remove('turning');
+      void halo.offsetWidth;
+      halo.classList.add('turning');
+    }
+    if (book3d) {
+      book3d.classList.add('turning');
+      setTimeout(function(){ book3d.classList.remove('turning'); }, 700);
+    }
+    burstParticles();
+    if (navigator.vibrate) { try { navigator.vibrate(10); } catch(e){} }
+  }
+
+  function applyBookState(s, animate) {
+    bookState = s;
+    if (s >= 1) cover.classList.add('flipped'); else cover.classList.remove('flipped');
+    pages[0].classList.toggle('flipped', s >= 2);
+    pages[1].classList.toggle('flipped', s >= 3);
+    pages[2].classList.toggle('flipped', s >= 4);
+    pages[3].classList.toggle('flipped', s >= 5);
+    if (book3d) {
+      if (s === 0) book3d.style.transform = 'rotateY(0deg)';
+      else if (s < 6) book3d.style.transform = 'rotateY(-25deg)';
+    }
+    if (backCover) backCover.style.opacity = s >= 5 ? '1' : '0.3';
+    updateChapterLabel(s);
+    if (animate) triggerTurnFx();
+  }
+
   function updateBook() {
     if (!bookExp || currentPage !== 'books') return;
+    if (isTouchDevice) return; // mobile uses swipe
     var rect = bookExp.getBoundingClientRect();
     var totalScroll = bookExp.offsetHeight - window.innerHeight;
     var scrolled = -rect.top;
@@ -1670,6 +1806,19 @@ if (wordCard) {
     if (phase >= 3.3) { pages[2].classList.add('flipped'); } else { pages[2].classList.remove('flipped'); }
     if (phase >= 4.3) { pages[3].classList.add('flipped'); } else { pages[3].classList.remove('flipped'); }
 
+    // Chapter label + turn fx on phase boundary crossings
+    var newStateIdx = 0;
+    if (phase >= 0.5) newStateIdx = 1;
+    if (phase >= 1.3) newStateIdx = 2;
+    if (phase >= 2.3) newStateIdx = 3;
+    if (phase >= 3.3) newStateIdx = 4;
+    if (phase >= 4.3) newStateIdx = 5;
+    if (newStateIdx !== bookState) {
+      bookState = newStateIdx;
+      updateChapterLabel(newStateIdx);
+      triggerTurnFx();
+    }
+
     // Back cover: visible after all pages flip
     if (backCover) {
       backCover.style.opacity = phase >= 4.5 ? '1' : '0.3';
@@ -1690,10 +1839,56 @@ if (wordCard) {
   }
 
   window.addEventListener('scroll', function() {
-    if (currentPage === 'books') {
+    if (currentPage === 'books' && !isTouchDevice) {
       requestAnimationFrame(updateBook);
     }
   }, {passive: true});
+
+  // Mobile swipe controls
+  if (isTouchDevice && book3d) {
+    var tStartX = 0, tStartY = 0, tMoved = false, swipeUsed = false;
+    book3d.addEventListener('touchstart', function(e){
+      var t = e.touches[0];
+      tStartX = t.clientX; tStartY = t.clientY; tMoved = false;
+    }, {passive: true});
+    book3d.addEventListener('touchmove', function(e){
+      var t = e.touches[0];
+      var dx = t.clientX - tStartX;
+      var dy = t.clientY - tStartY;
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+        tMoved = true;
+        e.preventDefault();
+      }
+    }, {passive: false});
+    book3d.addEventListener('touchend', function(e){
+      var t = (e.changedTouches && e.changedTouches[0]) || null;
+      if (!t || !tMoved) return;
+      var dx = t.clientX - tStartX;
+      var dy = t.clientY - tStartY;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+      if (!swipeUsed && swipeHint) { swipeHint.classList.add('hidden'); swipeUsed = true; }
+      if (dx < 0) {
+        // swipe left: next
+        if (bookState >= 5) {
+          // spin + reset
+          if (book3d) {
+            book3d.style.transition = 'transform 1.2s cubic-bezier(0.22,1,0.36,1)';
+            book3d.style.transform = 'rotateY(-360deg) scale(0.9)';
+          }
+          triggerTurnFx();
+          setTimeout(function(){
+            if (book3d) book3d.style.transition = 'none';
+            applyBookState(0, false);
+            setTimeout(function(){ if (book3d) book3d.style.transition = ''; }, 50);
+          }, 1200);
+        } else {
+          applyBookState(bookState + 1, true);
+        }
+      } else {
+        if (bookState > 0) applyBookState(bookState - 1, true);
+      }
+    }, {passive: true});
+  }
 
   var origGo2 = go;
   go = function(page) {
@@ -1704,10 +1899,12 @@ if (wordCard) {
         cover.classList.remove('flipped');
         pages.forEach(function(p) { if (p) p.classList.remove('flipped'); });
         lastPhase = -1;
+        bookState = 0;
+        updateChapterLabel(0);
         if (hint) hint.classList.remove('hidden');
         var prog = document.getElementById('book-progress');
-        if (prog) prog.classList.add('active');
-        updateBook();
+        if (prog && !isTouchDevice) prog.classList.add('active');
+        if (!isTouchDevice) updateBook();
       }, 100);
     } else {
       var prog = document.getElementById('book-progress');
