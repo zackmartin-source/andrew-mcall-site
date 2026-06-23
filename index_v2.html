@@ -752,6 +752,7 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
 .cover-front{position:absolute;inset:0;border-radius:0 8px 8px 0;background:linear-gradient(155deg,#134e7c 0%,#0d3a61 60%,#0a2c4d 100%);box-shadow:0 30px 80px rgba(0,0,0,0.5),inset 0 0 60px rgba(0,0,0,0.2);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .cover-front::before{content:'';position:absolute;left:0;top:0;bottom:0;width:14px;background:linear-gradient(to right,rgba(0,0,0,0.4),rgba(0,0,0,0.1),rgba(255,255,255,0.05))}
 .cover-front::after{content:'';position:absolute;inset:6%;border:1px solid rgba(186,230,253,0.25);border-radius:2px;pointer-events:none}
+.cover-front .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0 8px 8px 0}
 .cover-front-content{text-align:center;padding:15%;position:relative;z-index:2}
 .cover-front-content .auth{color:rgba(186,230,253,0.7);font-size:10px;letter-spacing:0.5em;text-transform:uppercase;margin-bottom:2rem}
 .cover-front-content .tree-svg{margin:0 auto 1.5rem}
@@ -1000,12 +1001,13 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
     </div>
     <div class="books-grid">
       <article class="book-card-big tilt-card reveal">
-        <img class="bg" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=900&auto=format&fit=crop" alt="The Knowledge of Good and Evil"/>
-        <div class="book-overlay-1"></div>
+        <picture>
+          <source type="image/webp" srcset="book1-cover.webp">
+          <img class="bg" src="book1-cover.jpg" alt="The Knowledge of Good and Evil"/>
+        </picture>
         <div class="book-overlay-dark"></div>
         <div class="book-content">
           <p class="book-tag">Book One, Available Now</p>
-          <h3 class="font-display">The Knowledge of Good and Evil</h3>
           <p>Why was one tree forbidden? Journey from a garden in Genesis to the upper room, and discover the difference between knowledge that is taken and knowledge that is given.</p>
           <button class="book-cta" onclick="go('books')">
             Order Now
@@ -1399,16 +1401,10 @@ footer{position:relative;background:#0e1d33;color:#fff;overflow:hidden}
       <!-- Front cover (topmost, opens first) -->
       <div class="book-cover-3d" id="book-cover-3d">
         <div class="cover-front">
-          <div class="cover-front-content">
-            <p class="auth">Andrew McCall</p>
-            <svg class="tree-svg" viewBox="0 0 80 80" width="56" height="56" fill="none">
-              <path d="M40 62 V34" stroke="#bae0ff" stroke-width="2"/>
-              <path d="M40 42 C30 38 24 30 25 20 C33 22 39 28 40 36 C41 28 47 22 55 20 C56 30 50 38 40 42Z" stroke="#bae0ff" stroke-width="1.6" fill="none"/>
-              <path d="M26 62 H54" stroke="#bae0ff" stroke-width="1.4"/>
-            </svg>
-            <p class="title font-display">The Knowledge<em>of</em>Good &amp; Evil</p>
-            <p class="sub">A Theological Narrative</p>
-          </div>
+          <picture>
+            <source type="image/webp" srcset="book1-cover.webp">
+            <img class="cover-img" src="book1-cover.jpg" alt="The Knowledge of Good and Evil by Andrew McCall" loading="lazy"/>
+          </picture>
         </div>
         <div class="cover-back"></div>
       </div>
