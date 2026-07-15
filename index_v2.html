@@ -3217,6 +3217,13 @@ if (wordCard) {
       var p = vid.play();
       if (p && p.catch) p.catch(function(){});
     });
+    var kick = function(){
+      if (vid.paused) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+      window.removeEventListener('scroll', kick);
+      window.removeEventListener('pointerdown', kick);
+    };
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('pointerdown', kick, { passive: true });
   }
 
   if (!window.Motion || reduced) return;
